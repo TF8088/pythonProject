@@ -1,4 +1,4 @@
-from map.map_poo import Graph, Node
+from poo.map_poo import Graph, Node
 
 graphPassengers = Graph({
     "Algeciras": {"connections": {"Le Havre": 6, "Valencia": 2, "Botas": 8}},

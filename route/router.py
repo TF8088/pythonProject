@@ -10,3 +10,4 @@ def route_freighters():
 
 def route_passengers():
     pass
+

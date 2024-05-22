@@ -1,6 +1,6 @@
 from route.router import route_freighters, route_passengers
 from map.map import create_port, see_port, edit_port, delete_port
-from menu.menu import Menu, Submenu
+from poo.menu import Menu, Submenu
 
 
 def main():

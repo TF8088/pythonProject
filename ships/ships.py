@@ -1,7 +1,8 @@
+import os
 import pandas as pd
-from ships.ships_poo import PassengersShips, CargoShips
+from poo.ships_poo import PassengersShips, CargoShips
 
-file_path = '../navios_mercantes.xlsx'
+file_path = os.path.join(os.path.dirname(__file__), '..', 'navios_mercantes.xlsx')
 
 xls = pd.ExcelFile(file_path)
 
