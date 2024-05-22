@@ -15,16 +15,16 @@ def read_ship_data(sheet_name, ship_class):
         ship = None
         if ship_class == PassengersShips:
             ship = ship_class(
-                shipName=row["nome"],
-                yearConstruction=row["anoConstrucao"],
-                totalPassengers=row["totalPassageiros"]
+                ship_name=row["nome"],
+                year_construction=row["anoConstrucao"],
+                total_passengers=row["totalPassageiros"]
             )
         elif ship_class == CargoShips:
             ship = ship_class(
-                shipName=row["nome"],
-                yearConstruction=row["anoConstrucao"],
-                shipClass=row["classe"],
-                shipPower=row["potência"]
+                ship_name=row["nome"],
+                year_construction=row["anoConstrucao"],
+                ship_class=row["classe"],
+                ship_power=row["potência"]
             )
         ships.append(ship)
 
@@ -44,3 +44,8 @@ def get_all_ships():
         all_ships.extend(ships)
 
     return all_ships
+
+
+pr = get_all_ships()
+
+print(len(pr))
