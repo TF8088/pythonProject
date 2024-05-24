@@ -44,8 +44,3 @@ def get_all_ships():
         all_ships.extend(ships)
 
     return all_ships
-
-
-pr = get_all_ships()
-
-print(len(pr))

@@ -34,6 +34,15 @@ class Graph:
             if value is not None:
                 node.value = value
 
+    def update_node_name(self, old_name, new_name):
+        node = self.get_node(old_name)
+        if node:
+            node.name = new_name
+            self.nodes[new_name] = self.nodes.pop(old_name)
+            for n in self.nodes.values():
+                if old_name in n.connections:
+                    n.connections[new_name] = n.connections.pop(old_name)
+
     def delete_node(self, name):
         if name in self.nodes:
             for connection in self.nodes[name].connections:

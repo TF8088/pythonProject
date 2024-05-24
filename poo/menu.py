@@ -91,8 +91,10 @@ class Menu:
                         op_text, op_func, args = self.options[choice - 1]
                         if args:
                             op_func(*args)
+                            self.wait_for_input()
                         else:
                             op_func()
+                            self.wait_for_input()
                 else:
                     print("Invalid choice")
             except ValueError as e:

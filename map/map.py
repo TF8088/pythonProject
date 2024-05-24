@@ -1,3 +1,6 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
 from poo.map_poo import Graph, Node
 
 graphPassengers = Graph({
@@ -19,7 +22,6 @@ graphCargos = Graph({
     "Le Havre": {"connections": {"Marseille": 3, "Algeciras": 5}, "value": 66104},
     "Antwerp": {"connections": {"Le Havre": 1}, "value": 201202},
     "Amsterdam": {"connections": {"Marseille": 5}, "value": 98517},
-    # "Hamburg": {"connections": {"Amsterdam": 1, "Izmit": 10, "Marseille": 8}, "value": 118761},
     "Botas": {"connections": {"Izmit": 4, "Marseille": 12}, "value": 70917},
     "Izmit": {"connections": {"Botas": 4, "Marseille": 9}, "value": 72690}
 })
@@ -27,7 +29,6 @@ graphCargos = Graph({
 graphs = [graphPassengers, graphCargos]
 
 
-# TODO Implementar UI
 def see_port(i):
     try:
         portName = str(input("Insert the name of the port: ")).strip()
@@ -46,10 +47,29 @@ def see_port(i):
 
         if i == 1 and port.value is not None:
             print(f"Value: {port.value} $")
-
-        input("Press Enter to continue...")
     except Exception as e:
         print(f"{e}")
+
+
+def see_ports(i):
+    G = nx.Graph()
+
+    for port in graphs[i].nodes.values():
+        port_label = f"{port.name} ({port.value})" if port.value is not None else port.name
+        G.add_node(port_label)
+
+        for connection, distance in port.connections.items():
+            connection_label = f"{connection} ({graphs[i].get_node(connection).value})" if (
+                        graphs[i].get_node(connection).value is
+                        not None) else connection
+            G.add_edge(port_label, connection_label, weight=distance)
+
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos, with_labels=True)
+    labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+
+    plt.show()
 
 
 def create_port(i):
@@ -90,7 +110,7 @@ def create_port(i):
 
 def edit_port(i):
     try:
-        portName = str(input("Insert the name of the port to edit: ")).strip()
+        portName = str(input("Enter the name of the port to edit: ")).strip()
 
         port = graphs[i].get_node(portName)
 
@@ -98,30 +118,45 @@ def edit_port(i):
             print(f"The port {portName} does not exist.")
             return
 
-        print("Enter the new connections for this port (or 'exit' to terminate)")
-
-        connections = {}
+        value = None
 
         while True:
-            connection_name = str(input("Enter the name of a connection (or 'exit' to terminate): ")).strip()
-
-            if connection_name.lower() == 'exit':
-                break
-
-            if graphs[i].get_node(connection_name) is None:
-                print(f"The {connection_name} port does not exist. Please try again. ")
-                continue
-
-            connection_distance = int(input(f"Enter the distance for the connection {connection_name}: "))
-
-            connections[connection_name] = connection_distance
-
+            print("\n╔═══════════════════════════════════════╗")
+            print("║                Edit Options:            ║")
+            print("╠═══════════════════════════════════════╣")
+            print(f"\t1. Port Name: {portName}")
+            print(f"\t2. Connections: {port.connections}")
             if i == 1:
-                value = int(input("Enter the value for the port: "))
-            else:
-                value = None
+                print(f"3. Value: {port.value}")
+            print("\t4. Exit")
+            print("╚════════════════════════════════════════╝")
+            option = input("Enter the number of the field (1-4): ")
 
-            graphs[i].update_node(portName, connections, value)
+            if option == '1':
+                new_name = input("Enter the new name: ")
+                graphs[i].update_node_name(portName, new_name)
+                portName = new_name
+            elif option == '2':
+                connection_name = str(input("Enter the name of a connection (or 'exit' to finish): ")).strip()
+
+                if connection_name.lower() == 'exit':
+                    break
+
+                if graphs[i].get_node(connection_name) is None:
+                    print(f"The port {connection_name} does not exist. Please try again.")
+                    continue
+
+                connection_distance = int(input(f"Enter the distance to the connection {connection_name}: "))
+
+                port.connections[connection_name] = connection_distance
+            elif option == '3' and i == 1:
+                value = int(input("Enter the value for the port: "))
+            elif option == '4':
+                break
+            else:
+                print("Invalid option. Please try again.")
+
+            graphs[i].update_node(portName, port.connections, value)
     except Exception as e:
         print(f"{e}")
 
