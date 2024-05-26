@@ -50,13 +50,6 @@ class Graph:
                     self.nodes[connection].connections.pop(name, None)
             del self.nodes[name]
 
-    def add_connection(self, name1, name2, distance):
-        node1 = self.get_node(name1)
-        node2 = self.get_node(name2)
-        if node1 and node2:
-            node1.connections[name2] = distance
-            node2.connections[name1] = distance
-
     def remove_connection(self, name1, name2):
         node1 = self.get_node(name1)
         node2 = self.get_node(name2)

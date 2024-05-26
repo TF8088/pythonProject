@@ -3,13 +3,6 @@ import os
 
 class Menu:
     def __init__(self, title, subtitle):
-        """
-        Initialize the Menu with a title and subtitle.
-
-        Args:
-            `title (str)`: The title of the menu.
-            `subtitle (str)`: The subtitle of the menu.
-        """
         self.title = title
         self.subtitle = subtitle
         self.options = []
@@ -63,7 +56,7 @@ class Menu:
         """
 
         max_option_length = 52
-        max_option_length += 4  # Para acomodar o número, o ponto e o espaço
+        max_option_length += 4
 
         while True:
             self.clear_screen()

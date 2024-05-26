@@ -32,15 +32,18 @@ def read_ship_data(sheet_name, ship_class):
 
 
 def get_all_ships():
-    ship_type_map = {
-        'navios_passageiros': PassengersShips,
-        'navios_de_carga': CargoShips,
-    }
+    try:
+        ship_type_map = {
+            'navios_passageiros': PassengersShips,
+            'navios_de_carga': CargoShips,
+        }
 
-    all_ships = []
+        all_ships = []
 
-    for sheet_name, ship_class in ship_type_map.items():
-        ships = read_ship_data(sheet_name, ship_class)
-        all_ships.extend(ships)
+        for sheet_name, ship_class in ship_type_map.items():
+            ships = read_ship_data(sheet_name, ship_class)
+            all_ships.extend(ships)
 
-    return all_ships
+        return all_ships
+    except Exception as e:
+        print(f"{e}")
